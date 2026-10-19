@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shader gradient · példa</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preload" as="script" href="https://cdn.jsdelivr.net/gh/Studio-Stereogram/stereogram-embed-assets@3cbdda5/shadergradient-embed.js">
+<style>
+  :root { color-scheme: dark; --bg:#1a1a1c; --ink:#fff; --ink-2:#f2f2f3; --gut:48px; }
+  @media (max-width:1199px){ :root{ --gut:24px } } @media (max-width:809px){ :root{ --gut:16px } }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Neue Montreal",Inter,Arial,sans-serif; }
+  .wrap { max-width:1280px; margin-inline:auto; padding-inline:var(--gut); box-sizing:border-box; }
+  .shader-panel { position:relative; isolation:isolate; overflow:hidden; }
+  .shader-panel > .wrap, .cta > * { position:relative; z-index:2; }
+  .hero { background:#00001a; min-height:80vh; display:flex; align-items:flex-end; padding-block:120px 64px; }
+  .hero::after { content:""; position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg,rgba(26,26,28,0) 30%,rgba(26,26,28,.55) 70%,var(--bg) 100%); }
+  .hero .wrap { width:100%; }
+  h1 { font-family:"Terza Display",Georgia,serif; font-weight:300; font-size:clamp(2.6rem,5.4vw,4.6rem); line-height:1.02; margin:0; max-width:17ch; }
+  .cta { background:#0e001a; border-radius:4px; padding:clamp(32px,6vw,72px); margin-block:96px; }
+  .cta::after { content:""; position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(90deg,rgba(0,0,26,.72),rgba(0,0,26,.2)); }
+  .cta h2 { font-family:"Terza Display",Georgia,serif; font-weight:300; font-size:clamp(2rem,4.4vw,3.6rem); margin:0; }
+  [data-shader-gradient] canvas { opacity:0; transition:opacity 1.2s cubic-bezier(.25,.1,.25,1); }
+  [data-shader-gradient].sg-on canvas { opacity:1; }
+  @media (prefers-reduced-motion:reduce){ [data-shader-gradient] canvas{ transition:none } }
+</style>
+</head>
+<body>
+<header class="shader-panel hero" data-shader-gradient>
+  <div class="wrap"><h1>Hero a kék alapbeállítással</h1></div>
+</header>
+<div class="wrap">
+  <section class="shader-panel cta" data-shader-gradient='{"color1":"#0e001a","color2":"#7c3cb5","color3":"#a742ff"}'>
+    <h2>CTA a lila palettával</h2>
+  </section>
+</div>
+<script>
+(function(){
+  function watch(host){
+    if(host.__sgw) return; host.__sgw=1; var t=0;
+    function check(){
+      if(!host.querySelector("canvas")){ clearTimeout(t); t=0; host.classList.remove("sg-on"); return; }
+      if(host.classList.contains("sg-on")||t) return;
+      t=setTimeout(function(){ requestAnimationFrame(function(){ requestAnimationFrame(function(){ t=0; if(host.querySelector("canvas")) host.classList.add("sg-on"); }); }); },120);
+    }
+    new MutationObserver(check).observe(host,{childList:true,subtree:true}); check();
+  }
+  function init(){ [].forEach.call(document.querySelectorAll("[data-shader-gradient]"),watch); }
+  document.addEventListener("DOMContentLoaded",init); setTimeout(init,0); addEventListener("load",init);
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/gh/Studio-Stereogram/stereogram-embed-assets@3cbdda5/shadergradient-embed.js" defer></script>
+</body>
+</html>

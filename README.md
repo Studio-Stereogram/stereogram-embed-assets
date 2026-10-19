@@ -14,3 +14,8 @@ Public static assets for Stereogram's Framer HTML embeds, served via jsDelivr.
 Pin to a commit (`@3cbdda5`) so the CDN URL stays stable and cacheable; a changed bundle gets a new commit and a new URL.
 
 Third-party code in the bundle (React, three.js, @shadergradient/react, camera-controls) is MIT licensed; license notices are kept at the end of the file. No font files are stored here.
+
+## Docs
+
+- [docs/shader-gradient.md](docs/shader-gradient.md): when and how to use the shader (presets, layering, 1.2 s fade-in, rules). The stereogram-design skill references this.
+- [docs/example.html](docs/example.html): minimal hero + CTA example.
